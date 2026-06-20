@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For Ash's Pikachu ❤️</title>
+  <style>
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      overflow:hidden;
+      font-family:Arial, sans-serif;
+      min-height:100vh;
+      position:relative;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,.18), transparent 25%),
+        radial-gradient(circle at bottom right, rgba(255,255,255,.12), transparent 28%),
+        linear-gradient(135deg,#ffb6c1,#ff8fb1,#d98cff);
+    }
+
+    .page{
+      display:none;
+      height:100vh;
+      width:100%;
+      position:absolute;
+      top:0;
+      left:0;
+      justify-content:center;
+      align-items:center;
+      flex-direction:column;
+      text-align:center;
+      padding:24px;
+      z-index:2;
+    }
+
+    .active{ display:flex; }
+
+    .card{
+      background:rgba(255,255,255,0.16);
+      backdrop-filter:blur(9px);
+      -webkit-backdrop-filter:blur(9px);
+      border:1px solid rgba(255,255,255,0.32);
+      border-radius:28px;
+      padding:30px 24px;
+      max-width:860px;
+      width:min(92vw,860px);
+      box-shadow:0 14px 36px rgba(0,0,0,0.14);
+    }
+
+    h1{
+      margin:0;
+      color:#fff;
+      text-shadow:2px 2px 12px rgba(0,0,0,.18);
+      white-space:pre-line;
+      line-height:1.55;
+      font-size:clamp(1.4rem, 2.5vw, 2.35rem);
+      font-weight:700;
+    }
+
+    .sub{
+      margin-top:14px;
+      color:#fff;
+      opacity:.96;
+      font-size:1rem;
+      line-height:1.7;
+      text-shadow:1px 1px 8px rgba(0,0,0,.12);
+    }
+
+    .btns{
+      display:flex;
+      justify-content:center;
+      margin-top:24px;
+    }
+
+    button{
+      padding:13px 28px;
+      border:none;
+      border-radius:999px;
+      background:#ff4f8b;
+      color:#fff;
+      font-size:17px;
+      cursor:pointer;
+      box-shadow:0 8px 20px rgba(255,79,139,.32);
+      transition:transform .2s ease, box-shadow .2s ease;
+    }
+
+    button:hover{
+      transform:translateY(-2px) scale(1.03);
+      box-shadow:0 12px 26px rgba(255,79,139,.38);
+    }
+
+    .floating{
+      position:absolute;
+      pointer-events:none;
+      opacity:.5;
+      z-index:1;
+      animation-timing-function:linear;
+      animation-iteration-count:infinite;
+      filter:drop-shadow(0 6px 10px rgba(0,0,0,.08));
+    }
+
+    .heart{ font-size:20px; animation-name:floatUp; }
+    .spark{ font-size:15px; animation-name:twinkleFloat; }
+    .petal{ font-size:20px; animation-name:fallDown; }
+
+    @keyframes floatUp{
+      from{ transform:translateY(110vh) rotate(0deg); }
+      to{ transform:translateY(-120px) rotate(360deg); }
+    }
+
+    @keyframes fallDown{
+      from{ transform:translateY(-120px) rotate(0deg); }
+      to{ transform:translateY(110vh) rotate(280deg); }
+    }
+
+    @keyframes twinkleFloat{
+      0%{ transform:translateY(100vh) scale(.8); opacity:.2; }
+      50%{ opacity:.75; }
+      100%{ transform:translateY(-120px) scale(1.15); opacity:.25; }
+    }
+
+    .final-wrap{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      flex-direction:column;
+      text-align:center;
+      min-height:100vh;
+      padding:24px;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,.18), transparent 25%),
+        radial-gradient(circle at bottom right, rgba(255,255,255,.12), transparent 28%),
+        linear-gradient(135deg,#ffb6c1,#ff8fb1,#d98cff);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Page 1 -->
+  <div class="page active" id="page1">
+    <div class="card">
+      <h1 id="text1"></h1>
+      <div class="sub">❤️ A little something from my heart to yours ❤️</div>
+      <div class="btns">
+        <button onclick="showPage(2)">Next ❤️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 2 -->
+  <div class="page" id="page2">
+    <div class="card">
+      <h1 id="text2"></h1>
+      <div class="btns">
+        <button onclick="showPage(3)">Next 💖</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 3 -->
+  <div class="page" id="page3">
+    <div class="card">
+      <h1 id="text3"></h1>
+      <div class="btns">
+        <button onclick="showPage(4)">Next 🥰</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 4 -->
+  <div class="page" id="page4">
+    <div class="card">
+      <h1 id="text4"></h1>
+      <div class="btns">
+        <button onclick="finalMessage()">Open Final ❤️</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const messages = {
+      1: "Hii Ash's Pikachu.\n11-10-16.",
+      2: "I never expected to find someone\nwho could make silence feel like conversation\nand distance feel shorter than a single thought.",
+      3: "You didn't change who I was—",
+      4: "you simply reminded me of the person\nI wanted to become.\n\nAnd if anyone asks what love looks like,\nI'll tell them it looks like choosing the same soul,\nagain and again, without hesitation."
+    };
+
+    function typeText(id, text){
+      let i = 0;
+      const el = document.getElementById(id);
+      el.innerHTML = "";
+      const speed = setInterval(() => {
+        el.innerHTML += text.charAt(i);
+        i++;
+        if(i >= text.length) clearInterval(speed);
+      }, 34);
+    }
+
+    function showPage(num){
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page' + num).classList.add('active');
+      typeText('text' + num, messages[num]);
+    }
+
+    function finalMessage(){
+      document.body.innerHTML = `
+        <div class="final-wrap">
+          <div class="card" style="max-width:900px;">
+            <h1>
+              Hii Ash's Pikachu ❤️
+              
+              Some people arrive quietly,
+              and somehow become the loudest peace in your heart.
+
+              And if love ever needed a definition,
+              I think it would sound a lot like you.
+            </h1>
+          </div>
+        </div>
+      `;
+      createFinalFloating();
+    }
+
+    // Start typing first page
+    typeText("text1", messages[1]);
+
+    // Romantic floating background
+    function createFloating(){
+      const items = [
+        {cls:'heart', icon:'❤️', count:14, durMin:10, durMax:18},
+        {cls:'heart', icon:'💖', count:10, durMin:12, durMax:20},
+        {cls:'petal', icon:'🌸', count:10, durMin:13, durMax:22},
+        {cls:'spark', icon:'✨', count:12, durMin:14, durMax:24}
+      ];
+
+      items.forEach(item => {
+        for(let i=0; i<item.count; i++){
+          const el = document.createElement("div");
+          el.className = `floating ${item.cls}`;
+          el.innerHTML = item.icon;
+          el.style.left = Math.random() * 100 + "vw";
+          el.style.animationDuration =
+            (item.durMin + Math.random() * (item.durMax - item.durMin)) + "s";
+          el.style.animationDelay = (Math.random() * 10) + "s";
+          el.style.top = Math.random() * 100 + "vh";
+          document.body.appendChild(el);
+        }
+      });
+    }
+
+    function createFinalFloating(){
+      for(let i=0; i<10; i++){
+        const el = document.createElement("div");
+        el.className = "floating heart";
+        el.innerHTML = i % 2 === 0 ? "💖" : "✨";
+        el.style.left = Math.random() * 100 + "vw";
+        el.style.animationDuration = (10 + Math.random() * 8) + "s";
+        el.style.animationDelay = (Math.random() * 4) + "s";
+        document.body.appendChild(el);
+      }
+    }
+
+    createFloating();
+  </script>
+</body>
+</html>
